@@ -79,15 +79,7 @@
 %\crdata{0-12345-67-8/90/01}  % Allows default copyright data (0-89791-88-6/97/05) to be over-ridden - IF NEED BE.
 % --- End of Author Metadata ---
 
-\title{Securing Smart Places: A Power-Aware Infrastructure
-\titlenote{(Produces the permission block, and
-copyright information). For use with
-SIG-ALTERNATE.CLS. Supported by ACM.}}
-\subtitle{[Extended Abstract]
-\titlenote{A full version of this paper is available as
-\textit{Author's Guide to Preparing ACM SIG Proceedings Using
-\LaTeX$2_\epsilon$\ and BibTeX} at
-\texttt{www.acm.org/eaddress.htm}}}
+\title{Securing Smart Places: A Power-Aware Infrastructure}
 %
 % You need the command \numberofauthors to handle the 'placement
 % and alignment' of the authors beneath the title.
@@ -130,34 +122,33 @@ SIG-ALTERNATE.CLS. Supported by ACM.}}
 %
 % 1st. author
 \alignauthor
-Tiago Diogo\titlenote{Dr.~Trovato insisted his name be first.}\\
-       \affaddr{Instituto Superior Técnico - Universidade de Lisboa}\\
-       \affaddr{1932 Wallamaloo Lane}\\
-       \affaddr{Wallamaloo, New Zealand}\\
+Tiago Diogo\\
+       \affaddr{Instituto Superior Técnico}\\
+       \affaddr{Av. Rovisco Pais, 1}\\
+       \affaddr{1049-001 Lisboa, Portugal}\\
        \email{tiago.diogo@tecnico.ulisboa.pt}
 % 2nd. author
 \alignauthor
-Miguel Pardal\titlenote{The secretary disavows
-any knowledge of this author's actions.}\\
+Miguel Pardal\\
        \affaddr{Inesc ID}\\
-       \affaddr{P.O. Box 1212}\\
-       \affaddr{Dublin, Ohio 43017-6221}\\
+       \affaddr{Rua Alves Redol, 9}\\
+       \affaddr{1000-029 Lisboa, Portugal}\\
        \email{miguel.pardal@tecnico.ulisboa.pt}
 }
 % There's nothing stopping you putting the seventh, eighth, etc.
 % author on the opening page (as the 'third row') but we ask,
 % for aesthetic reasons that you place these 'additional authors'
 % in the \additional authors block, viz.
-\additionalauthors{Additional authors: John Smith (The Th{\o}rv{\"a}ld Group,
-email: {\texttt{jsmith@affiliation.org}}) and Julius P.~Kumquat
-(The Kumquat Consortium, email: {\texttt{jpkumquat@consortium.net}}).}
-\date{30 July 1999}
+
 % Just remember to make sure that the TOTAL number of authors
 % is the number that will appear on the first page PLUS the
 % number that will appear in the \additionalauthors section.
 
 \maketitle
 \begin{abstract}
+The Internet of Things (IoT) and
+its vision of connecting every device to one another presents an opportunity to create large informa-tion sharing networks. However, intruders can take advantage of the IoT devices constrained nature
+to disrupt the networks and launch a wide range of attacks on its nodes.
 This paper provides a sample of a \LaTeX\ document which conforms,
 somewhat loosely, to the formatting guidelines for
 ACM SIG Proceedings. It is an {\em alternate} style which produces
@@ -190,33 +181,21 @@ is available on the web page to help you with the
 %
 \begin{CCSXML}
 <ccs2012>
- <concept>
-  <concept_id>10010520.10010553.10010562</concept_id>
-  <concept_desc>Computer systems organization~Embedded systems</concept_desc>
-  <concept_significance>500</concept_significance>
- </concept>
- <concept>
-  <concept_id>10010520.10010575.10010755</concept_id>
-  <concept_desc>Computer systems organization~Redundancy</concept_desc>
-  <concept_significance>300</concept_significance>
- </concept>
- <concept>
-  <concept_id>10010520.10010553.10010554</concept_id>
-  <concept_desc>Computer systems organization~Robotics</concept_desc>
-  <concept_significance>100</concept_significance>
- </concept>
- <concept>
-  <concept_id>10003033.10003083.10003095</concept_id>
-  <concept_desc>Networks~Network reliability</concept_desc>
-  <concept_significance>100</concept_significance>
- </concept>
+<concept>
+<concept_id>10010520.10010553.10003238</concept_id>
+<concept_desc>Computer systems organization~Sensor networks</concept_desc>
+<concept_significance>500</concept_significance>
+</concept>
+<concept>
+<concept_id>10002978.10003014.10003017</concept_id>
+<concept_desc>Security and privacy~Mobile and wireless security</concept_desc>
+<concept_significance>300</concept_significance>
+</concept>
 </ccs2012>  
 \end{CCSXML}
 
-\ccsdesc[500]{Computer systems organization~Embedded systems}
-\ccsdesc[300]{Computer systems organization~Redundancy}
-\ccsdesc{Computer systems organization~Robotics}
-\ccsdesc[100]{Networks~Network reliability}
+\ccsdesc[500]{Computer systems organization~Sensor networks}
+\ccsdesc[300]{Security and privacy~Mobile and wireless security}
 
 
 %
@@ -231,7 +210,7 @@ is available on the web page to help you with the
 % We no longer use \terms command
 %\terms{Theory}
 
-\keywords{ACM proceedings; \LaTeX; text tagging}
+\keywords{Internet of Things; Power-Aware Security; Secure Bootstrapping; CoAP; 6LoWPAN; RPL; IEEE 802.15.4}
 
 \section{Introduction}
 The \textit{proceedings} are the records of a conference.
@@ -260,7 +239,7 @@ specifically available for denoting the structure of a
 proceedings paper, rather than with giving rigorous descriptions
 or explanations of such commands.
 
-\section{The {\secit Body} of The Paper}
+\section{Securing Smart Places}
 Typically, the body of a paper is organized
 into a hierarchical structure, with numbered or unnumbered
 headings for sections, subsections, sub-subsections, and even
@@ -284,7 +263,7 @@ the \textbf{document} environment, you can indicate the
 start of a new paragraph with a blank line in your
 input file; that is why this sentence forms a separate paragraph.
 
-\subsection{Type Changes and {\subsecit Special} Characters}
+\subsection{Protocol Analysis and Selection}
 We have already seen several typeface changes in this sample.  You
 can indicate italicized words or phrases in your text with
 the command \texttt{{\char'134}textit}; emboldening with the
@@ -309,12 +288,12 @@ you can find a complete list of what is
 available in the \textit{\LaTeX\
 User's Guide}\cite{Lamport:LaTeX}.
 
-\subsection{Math Equations}
+\subsection{Attack Analysis, Detection and Mitigation}
 You may want to display math equations in three distinct styles:
 inline, numbered or non-numbered display.  Each of
 the three are discussed in the next sections.
 
-\subsubsection{Inline (In-text) Equations}
+\subsection{Secure Bootstrapping}
 A formula that appears in the running text is called an
 inline or in-text formula.  It is produced by the
 \textbf{math} environment, which can be
@@ -328,7 +307,7 @@ this equation: \begin{math}\lim_{n\rightarrow \infty}x=0\end{math},
 set here in in-line math style, looks slightly different when
 set in display style.  (See next section).
 
-\subsubsection{Display Equations}
+\subsection{System Architecture}
 A numbered display equation -- one set off by vertical space
 from the text and centered horizontally -- is produced
 by the \textbf{equation} environment. An unnumbered display
@@ -347,7 +326,7 @@ and follow it with another numbered equation:
 \begin{equation}\sum_{i=0}^{\infty}x_i=\int_{0}^{\pi+2} f\end{equation}
 just to demonstrate \LaTeX's able handling of numbering.
 
-\subsection{Citations}
+\section{Evaluation}
 Citations to articles \cite{bowman:reasoning,
 clark:pct, braams:babel, herlihy:methodology},
 conference proceedings \cite{clark:pct} or
@@ -375,7 +354,7 @@ of the citation command, using \texttt{{\char'134}cite}.
 This is what is stipulated in the SIGS style specifications.
 No other citation format is endorsed or supported.
 
-\subsection{Tables}
+\subsection{Hardware Requirements}
 Because tables cannot be split across pages, the best
 placement for them is typically the top of the page
 nearest their initial cite.  To
@@ -429,7 +408,7 @@ Command&A Number&Comments\\ \hline
 \end{table*}
 % end the environment with {table*}, NOTE not {table}!
 
-\subsection{Figures}
+\subsection{Power Consumption}
 Like tables, figures cannot be split across pages; the
 best placement for them
 is typically the top or the bottom of the page nearest
