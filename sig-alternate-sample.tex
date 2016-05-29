@@ -496,10 +496,44 @@ just to demonstrate \LaTeX's able handling of numbering.
 In this section we measure and profile the resources required for the system operation. This ranges from the memory required for the nodes operative system and protocol stack, to power consumptions and battery replacement expectations. Each following subsection both presents the collected data and explains the process and technologies involved in obtaining it.
 
 \subsection{Hardware Requirements}
-In order to select hardware capable of supporting the stack of protocols used for communication it is necessary to measure the firmware size. For that task, the \texttt{msp430-size} tool was used. This tool analyses the firmware file and outputs the ammount of \texttt{text}, \texttt{data} and \texttt{bss}.\\
-Text corresponds to code and constants, Data is for initialized variables and Bss is for uninitialized data (which is initialized with zero in the startup code).\\
+In order to select hardware capable of supporting the stack of protocols used for communication it is necessary to measure the firmware size. For that task, the \textit{msp430-size}\footnote{http://www.ti.com/tool/msp430-gcc-opensource} tool was used. This tool analyses the firmware file and outputs the amount of \textit{text}, \textit{data} and \textit{bss}.\\
+\textit{text} corresponds to code and constants, \textit{data} is for initialized variables and \textit{bss} is for uninitialized data (which is initialized with zero in the startup code).\\
 The total amount of flash memory can me calculated from the sum of the text and data parameters.
 The total amount of ram memory can be calculated from the sum of the data and bss parameters.
+A comparison of the firmware size using the several security mechanisms can be found in Table \ref{tab:space_req} and a graphical display of the obtained values in Chart \ref{fig:carousel_attack}.
+
+\begin{table}
+\centering
+\caption{Space Requirements}
+\label{tab:space_req}
+\begin{tabular}{|c|c|c|} \hline
+Security Mechanism&Flash(KB)&RAM(KB)\\ \hline
+No-Sec& 59.56& 13.54\\ \hline
+LLSec& 61.36& 13.80\\ \hline
+DTLS& 84.38 & 15.66\\ \hline
+LLSec and DTLS& 86.18& 15.91\\
+\hline\end{tabular}
+\end{table}
+
+\begin{tikzpicture}
+\begin{axis}[
+    title = Space Requirements,
+    symbolic x coords={NoSec, LLSec, DTLS, FullSec},
+	ylabel=Memory(KB), 
+	enlargelimits=0.05,
+	legend style={at={(0.5,-0.1)},
+	anchor=north,legend columns=-1},
+	ybar interval=0.7,
+]
+\addplot 
+	coordinates {(NoSec,408184) (LLSec,408348)
+		 (DTLS,414870) (FullSec,412156)};
+\addplot 
+	coordinates {(NoSec,388950) (LLSec,393007) 
+		(DTLS,398449) (FullSec,395972)};
+\legend{Flash,SRAM}
+\end{axis}
+\end{tikzpicture}
 
 
 \begin{tikzpicture}
