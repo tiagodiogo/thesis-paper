@@ -453,44 +453,76 @@ Proposed mitigation strategies for this type of attacks consist on keeping track
 
 \subsection{Secure Bootstrapping}
 \label{sec:secure_bootstrapping}
-\paragraph{}
 The term bootstrapping is applied to the process in which a new device is connected to an existing network. To achieve a secure bootstrapping, a unique identity and security parameters are associated with the device during this phase. There are several ways to carry out the initial setup, either via a physical interface or wirelessly. In the case of wireless bootstrapping, attention must be given to eavesdropping so that the secure credentials cannot be intercepted.\\
 Since many of the studied attacks are to be performed by a malicious intruder capable of interacting with the network, if we could assure a secure bootstrapping, meaning that the new node would be authenticated before becoming an active member of the network, a large portion of those attacks could no longer be performed. The following bootstrapping techniques were summarized in \cite{Fischer2012} and aim at providing secure bootstrapping for \gls{IoT} devices.
 
 \subsubsection{Token-Based}
-\paragraph{}
 In token-based distribution, device specific security credentials are generated and written to a token. That token can range from memory sticks or flash cards to \gls{RFID} tags or smartcards. Is has the advantage that this initial credential generation can be performed on a physically controlled environment and only later, on the commissioning phase, is the token plugged into the device. After the successful insertion of the security credentials, the token can be removed and collected back into the secure environment. This process can be considered of high security since the credentials are generated on a closed environment and are transmitted through a physical link. To further increase the security level, a password could be used to encrypt the credentials, however, that would require the device to have some kind of interface that would allow to input the password. In the case of a large number of devices, this approach would be unsuitable due to the management effort of manually deploying the tokens to the devices \cite{Fischer2012}.
 
 \subsubsection{Identifier-Based Access Control List}
-\paragraph{}
 With an identifier based \gls{ACL}, new devices are allowed or denied access to the network based on their unique ID. A commonly used identifier is the MAC address. This has some major drawbacks in security since, firstly, it provides no assurances on the first time the device connects to the network. An attacker can easily intercept the first messages and get access to the device information. And secondly, after the bootstrapping phase, MAC addresses can be spoofed by an attacker, allowing him access to the network by bypassing the \gls{ACL} with the identifier of a legitimate node.
 
 \subsubsection{One-Time-Passwords}
-\paragraph{}
 The use of one-time-passwords enhances the manual input of credentials on the device to be bootstrapped. The person responsible for the deployment of the new node should receive through a secure channel an one-time-password, that would then be used to authenticate the node, by authenticating its locally generated key material. This material can be either a certificate request to a \gls{CA} or a locally generated public/private key pair. The achieved security level is proportional to the security of the channel used to obtain the one time password, but assuming that channel is secure, so is this method. The drawback is that it forces devices to possess some kind of interface to insert the one time password.
 
 \subsubsection{Manufacturer Installed Credentials}
-\paragraph{}
 So far, excluding the identifier based access control list, the intent of the studied techniques is to supply to the new device the security credentials needed to obtain access to the network, or at least provide an authentication method that allows fetching those credentials. In manufacturer installed credentials, those security credentials are deployed during the manufacturing process of the device vendor. Those credentials are typically a public/private key pair certificate bound to the identifier of the device. This certificate can be integrated into the initial loading of the firmware or stored in a separate integrated circuit designed for credential storing. In the second case, this method's security can be considered very high since those integrated circuits assure that the private key cannot be read from memory. This way, the new device comes shipped with the necessary security credentials not only for the bootstrapping phase but also for the normal operation phase since it does not need to fetch any additional credentials. The effort is on the root or management station that needs to import the vendor \gls{CA} certificates to assure the new device credentials are trustworthy. Also the production costs increase, implying an increased device cost.
 
-\subsection{System Architecture}
-A numbered display equation -- one set off by vertical space
-from the text and centered horizontally -- is produced
-by the \textbf{equation} environment. An unnumbered display
-equation is produced by the \textbf{displaymath} environment.
+\subsection{Existing Solutions}
+Secure bootstrapping and network admission solutions have already been proposed in past literature. However, the development and optimization of application layer protocols as well as network layer routing schemes allows for new approaches and solutions that can now fit the nature of \gls{IoT} devices.
+Bergman et al. \cite{Bergmann2012} proposed a three-phase secure bootstrapping technique for nodes in a \gls{CoAP} network. Firstly the joining node broadcasts a request for a \gls{CSDS}. This server, once contacted by a new node takes the responsibility of key distribution. Then the system goes under a vulnerable phase where the secret is transmitted from the \gls{CSDS} onto the new device. The author's proposes a short audible or visual feedback to the human installer when the secret is received and assumes that potential eavesdroppers can not intercept this transmission. Finally, this secret is used to setup the \gls{DTLS} connection. This approach has major security drawbacks. On the secret transmission phase, so the authors propose limiting the radio power to a low level and disable data forwarding beyond the local network segment, but these techniques cannot assure that an attacker won't be able to intercept the transmission.\\
+Oliveira et al. \cite{Oliveira2013} proposed an admission control solution for 6LoWPAN networks based on administrative approval. Each joining node would broadcast its presence to the network, and that broadcast would be received by the administrator in the management server. Then, the administrator would grant access to that new device based on its address, and that information would be transmitted to all the devices in the network. After this phase, the device would be allowed communication as a regular member of the network by its neighbours. This approach has the advantage of requiring no previous setup on the device before operation but is vulnerable to the attacks previously mentioned in identifier based \gls{ACL}. The authors state that work still needs to be performed in order to validate the sensor identity and leave as possibility the pre-instalment of keys on the device. 
 
-Again, in either environment, you can use any of the symbols
-and structures available in \LaTeX; this section will just
-give a couple of examples of display equations in context.
-First, consider the equation, shown as an inline equation above:
-\begin{equation}\lim_{n\rightarrow \infty}x=0\end{equation}
-Notice how it is formatted somewhat differently in
-the \textbf{displaymath}
-environment.  Now, we'll enter an unnumbered equation:
-\begin{displaymath}\sum_{i=0}^{\infty} x + 1\end{displaymath}
-and follow it with another numbered equation:
-\begin{equation}\sum_{i=0}^{\infty}x_i=\int_{0}^{\pi+2} f\end{equation}
-just to demonstrate \LaTeX's able handling of numbering.
+\subsection{Proposed Infrastructure}
+The \gls{IoT} principle of connecting every device do one another in an automated way can create networks beneficial to a wide spectrum of applications, ranging from home environments to large enterprises. However these are domains that have different requirements. A home application should be easy to setup without complex configurations. An enterprise solution can benefit from additional administrative configurations as long as the deployment of the network nodes is done quickly due to their potential large number. In order to demonstrate the capacities and applicability domain of our system, we will use a Smart University Campus scenario since it is out believe that it can effectively demonstrate the needs targeted by our work.
+In the following sections we will apply the information gathered in terms of protocols, attacks and mitigation strategies do define our objectives and requirements. Then, a model of a university campus with our proposed power-efficient network architecture will be presented and their components role explained.
+
+
+\subsubsection{Objectives and Requirements}
+A major concern amongst \gls{IoT} application is the communication model. It is out goal that the entire network is power-aware, using the minimum energy possible. Also, it is very important that the deployment of new nodes and system maintenance can be performed by regular staff members without knowledge of the inner workings of the system. This creates usability challenges and requires simple and automated interfaces and bootstrapping processes. Additionally, the following set of requirements is critical in order to allow secure communications to take place.
+\begin{itemize}
+	\item Confidentiality: Without confidential message transmission, packets would flow in the network in plain text. Attackers could sniff the packets in order to obtain information, and depending on the application, this could be a security breach. Even if there is no critical data being sent, privacy is still compromised.
+	\item Integrity: Assuring message integrity means that the message was not modified between the source and its destination. Without integrity we could not rely on the received data since it could have been, intentionally or not, modified on the fly, and be providing the system wrong information.
+	\item Authentication: The studied type of networks relies on hop-to-hop communication, meaning several nodes will take place in forwarding a packet. If they are not authenticated they could perform a wide range of attacks and disrupt the network.
+\end{itemize}
+
+\subsection{System Architecture}
+As previously stated, we will use a Smart Campus scenario. Being aware of the technological improvements on sensor networks and building management technologies, the \gls{IST} administration decided to improve the monitoring the overall conditions of the buildings and inside environments in order to better preserve its assets. To cope with the new requirements, we propose a solution for the monitoring of the campus sections by deploying a wireless sensor network on each building, connected to a central management station operated by the available staff. The scenario will be based on the \gls{IST} campus model. An overview of the system and its components over the \gls{IST} blueprints can be found in Figure \ref{fig:global_architecture}. Regarding each individual component:
+
+\begin{itemize}
+	\item Numeric Nodes: Represent the network sensor nodes, the most constrained element of the network. They cooperate to build the topology and route messages hop-by-hop until the root is reached. These are fully equipped with the previously presented energy efficient protocol stack
+	\item Alphabetical Nodes: Represent the root node of each section network topology. They are equipped with the same stack of the numbered nodes but are more powerful, preferentially not battery powered and act as the bridge between the constrained 6LoWPAN environment and the central management station. These nodes must be more powerful than the numeric ones so that they can process all the requests between a group of sensors and the management station. Also, although the numeric nodes use low-power wireless radios, the alphabetical nodes must be capable of interfacing with more power hungry radios and protocols therefore requiring more resources. This differentiation allows numeric nodes (the large portion of the network devices) to keep their very constrained nature, consuming less energy, an still be able to communicate with external devices.
+	\item Management Station: A black box model of the core components of the system. Each building reports to the central station and the staff monitors the status through it. A white box model will be shown in the following sections.
+	\item Client: The system's clients can be any user with access credentials, but mostly the staff members. They can access the management station either from within the local network or from outside through the Internet.
+\end{itemize}
+ 
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=1\linewidth]{figures/Global_Architecture.pdf}
+  \caption{Global System Architecture}
+  \label{fig:global_architecture}
+\end{figure}
+
+\paragraph{\textbf{Central Management Station}}
+The central management station is divided in five main components. A white box schematic of the core components and interactions can be found in Figure \ref{fig:core_components}. Regarding each individual component:
+
+\begin{itemize}
+	\item Key Store: This component is responsible for storing the shared network key for the RPL protocol;
+	\item Bootstrapper: The bootstrapper acts as the interface between the management station and the network devices. It generates the device identifier and writes it together with the shared network key into the new device;
+	\item CoAP Client Observer:  The one and only client in the network. Instead of the user directly requesting the sensor readings, the client will observe each resource and be notified of the new value. Each time it receives an update, it stores the information on the Data Server for the clients to use;
+	\item Data Server: A database with mappings of each node to the most up to date value reported. It's updated by the client observer and used on demand by the clients;
+	\item Proxy: Responsible for bridging requests coming from the Internet to the Data Server. Responsible for authenticating the external clients and providing access to the Data Server information.
+\end{itemize}
+
+Although each user could access the system through a \gls{CoAP} terminal and request the most up-to-date readings from the sensor nodes, this approach would cause unnecessary overheads in the system. Since many clients can connect from different locations, many requests would be performed to the sensor nodes for the same information, this would mean additional memory usage in the physical devices, and more requests to the already constrained battery operated network. With the single client approach acting as an observer, only one message needs to go through the network for each new reading.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=1.05\linewidth]{figures/White_Box_Model.pdf}
+  \caption{Central Management Station}
+  \label{fig:core_components}
+\end{figure}
+
 
 \section{Evaluation}
 In this section we measure and profile the resources required for the system operation. This ranges from the memory required for the nodes operative system and protocol stack, to power consumptions and battery replacement expectations. Each following subsection both presents the collected data and explains the process and technologies involved in obtaining it.
@@ -548,7 +580,7 @@ The introduction of security mechanisms in low-power networks is necessary and d
 Firstly, a software based approach was used to determine which hardware core components consumed most resources. An implementation of Energest\cite{Dunkels2007} for Contiki was selected since the tool maintains a table with entries for all components, such as CPU, radio transceiver, and LEDs. When a component starts running, a counter starts measuring the clock cycles used for that operation. When the component is turned off, the timer is stopped indicating how much resources were spent during that time.
 
 A sensor node from the selected hardware type, with a baseline of the selected stack without any additional security measurements or optimizations was left working for 60 minutes while producing resource update messages every 60 seconds. The resource division, as obtained from Energest is presented in Figure \ref{fig:resource_alloc}.
-\vfill\break
+%\vfill\break
 
 \begin{figure}
 \centering
@@ -575,7 +607,7 @@ A sensor node from the selected hardware type, with a baseline of the selected s
 \end{figure}
 
 It is clear from the tool output, that the majority of resources is spent on radio activity. This is due to the fact, that out of the box, Contiki-OS uses a \gls{RDC} protocol that keeps the radio always turned on listening to inbound network transmissions. In the attempt to reduce this radio usage, the ContikiMAC\cite{Dunkels2011} \gls{RDC} protocol, also implemented in Contiki-OS was used.
-This protocol reduces power consumption by turning the radio off and regularly turning it on to listen to network activity and receive inbound packages. After this phase, the radio is turned off again. With ContikiMAC, nodes can take part in network communication and keep their radios turned off for roughly 99\% of the time\cite{Dunkels2011}. The drawback are increased latency and decreased throughput due to the cost of keep retransmitting packets until the receiver turns its radio on. A comparison of the measured power consumptions for both protocols can be found in Table \ref{tab:power_consumptions}. The power consumption in Watts(W) has been calculated from the power equation, where I is the current in Amps(A) and V is the Voltage in Volts(V):
+This protocol reduces power consumption by turning the radio off and regularly turning it on to listen to network activity and receive inbound packages. After this phase, the radio is turned off again. With ContikiMAC, nodes can take part in network communication and keep their radios turned off for roughly 99\% of the time\cite{Dunkels2011}. The drawback are increased latency and decreased throughput due to the cost of keep retransmitting packets until the receiver turns its radio on. A comparison of the measured power consumptions for both protocols can be found in Table \ref{tab:power_consumptions}. The power consumption in Watts(W) has been calculated from the power equation, where I is the current in Amps(A) and V is the voltage in Volts(V):
 \begin{equation}
 P = I  V
 \end{equation} 
